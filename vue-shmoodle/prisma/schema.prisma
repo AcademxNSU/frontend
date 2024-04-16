@@ -1,0 +1,54 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id          Int        @id @default(autoincrement())
+  name        String
+  descryption String?
+  authorId    Int
+  likes       Int
+  author      User       @relation(fields: [authorId], references: [id])
+  taps        Taps[]
+  keywords    Keywords[] @relation("CourseToKeywords")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String   @unique
+  role      Role     @default(USER)
+  isAdmin   Boolean  @default(false)
+  isTeacher Boolean  @default(false)
+  isStudent Boolean  @default(false)
+  course    Course[]
+  taps      Taps[]
+}
+
+model Keywords {
+  id     Int      @id @default(autoincrement())
+  name   String
+  course Course[] @relation("CourseToKeywords")
+}
+
+model Taps {
+  id       Int    @id @default(autoincrement())
+  authorId Int?
+  courseId Int
+  author   User?  @relation(fields: [authorId], references: [id])
+  keywords Course @relation(fields: [courseId], references: [id])
+}
+
+enum Role {
+  TEACHER
+  STUDENT
+  ADMIN
+  USER
+}
