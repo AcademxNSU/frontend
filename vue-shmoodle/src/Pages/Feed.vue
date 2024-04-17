@@ -24,27 +24,6 @@ const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
 }
 
-
-// const fetchFavorites = async () => {
-//    try{
-//    const {data:favorites} = await axios.get(`https://69cae0cd8c99a38b.mokky.dev/favorites`)
-//    items.value = items.value.map(item => {
-//       const favorite = favorites.find(favorite => favorite.productId === item.id)
-//       if (!favorite){
-//          return item;
-//       }
-
-//       return{
-//          ...item,
-//          isFavorite: true,
-//          favoriteId: favorite.id,
-//       }
-//    });   
-// }catch (err) {
-//       console.log(err)
-//    }
-// }
-
 const fetchTaps = async () => {
   try {
     const { data:taps } = await axios.get(`https://69cae0cd8c99a38b.mokky.dev/taps`)
@@ -107,14 +86,20 @@ const getRecomendation = async () => {
   const data = await formatData()
   console.log(data)
   const recomendation = await axios.get(`http://127.0.0.1:5000/recommendation?name=${data}`)
-  console.log(recomendation)
+  const rec = recomendation.data.recomendation
+  const recommendedCourses = []
+  rec.forEach((value) => {
+    recommendedCourses.push(courses.value[value])
+  })
+  courses.value = recommendedCourses
 }
+ 
+  
 
 const fetchItems = async () => {
    try {
     const params = {
       sortBy: filters.sortBy,
-      individual: filters.individual
     }
 
     if (filters.search) {
