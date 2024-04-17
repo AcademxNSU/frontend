@@ -11,7 +11,7 @@ const auth = getAuth();
 const user = auth.currentUser;
 const router = useRouter()
 const filters = reactive({
- sortBy: 'name',
+ sortBy: 'CourseTitle',
  search: '',
 });
 
@@ -20,9 +20,7 @@ const filters = reactive({
 const onChangeInput = event => {
    filters.search = event.target.value
 }
-const onChangeSelect = (event) => {
-  filters.sortBy = event.target.value
-}
+
 
 const fetchTaps = async () => {
   try {
@@ -103,7 +101,7 @@ const fetchItems = async () => {
     }
 
     if (filters.search) {
-      params.name = `*${filters.search}*`
+      params.CourseTitle = `*${filters.search}*`
     }
 
     const { data } = await axios.get(`https://69cae0cd8c99a38b.mokky.dev/courses`, {
@@ -174,15 +172,10 @@ watch(filters, fetchItems, fetchTaps);
     <input @input="onChangeInput" type="text" class="bg-gray-100 w-96 border ml-44 rounded-md py-2.5 pl-11 pr-4 outline-none focus:border-gray-400" placeholder="Поиск..."/>
     </div>
 
-    <div>
-        <select @change="onChangeSelect" class="py-2 px-3 border rounded-md outline-none">
-            <option value="name">По названию</option>
-            <option value="-likes">По популярности(сначала популярные)</option>
-             <option value="likes">По популярности(сначала не популярные)</option>
-        </select>        
-    </div>
-    <div>
-      <button v-on:click="getRecomendation"  class="font-mono bg-orange-400 text-lg font-bold text-white rounded-xl uppercase cursor-pointer transition hover:-translate-y-1 hover:shadow-xl flex-auto w-52 h-14 border" >Индивидуальный контент</button>    
+  
+    <div v-on:click="getRecomendation" class="flex justify-between items-center font-mono bg-gray-100 text-xl font-bold text-white rounded-xl  cursor-pointer transition hover:-translate-y-1 hover:shadow-xl pl-4 h-14 gap-2 pr-4">
+      <img src="/images/ai.svg" alt="ai"/>
+      <p class="text-black font-bold">Индивидуальный контент</p>
     </div>
     </div>
     

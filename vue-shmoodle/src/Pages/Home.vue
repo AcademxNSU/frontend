@@ -1,5 +1,5 @@
 <script setup>
-import ImagesOnHomepage from '../components/ImagesOnHomepage.vue';
+
 import HomeHeader from '../components/HomeHeader.vue';
 
 </script>
@@ -7,7 +7,7 @@ import HomeHeader from '../components/HomeHeader.vue';
 <template>
 <div>
  <HomeHeader />
- <ImagesOnHomepage />
+
 </div>
 </template>
 
